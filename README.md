@@ -1,2 +1,2 @@
 # ananashunter.github.io
-Portfolio website
+Portfolio website of Kartika Mediani
