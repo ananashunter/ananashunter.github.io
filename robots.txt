@@ -1,4 +1,4 @@
-# ananashunter.github.io
+# kartika-mediani.com
 
 User-agent: *
 Disallow:
