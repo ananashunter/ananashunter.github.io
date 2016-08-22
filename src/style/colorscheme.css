@@ -36,7 +36,7 @@
 
 #main_nav_container {
     background: top right no-repeat;
-    background-image: url(images/static/menubg.gif);
+    background-image: url(/images/dynamic/buttonset6/menubg.gif);
     background-color: #182F50;
 }
 
@@ -60,7 +60,7 @@ a.main_nav_active_item {
 /*--- subnavigation items --------------------------------------------------*/
 
 .sub_nav_container {
-    /*background : url(images/static/submenubg.gif) repeat-x;*/
+    /*background : url(/images/dynamic/buttonset6/submenubg.gif) repeat-x;*/
 
 }
 
@@ -80,7 +80,7 @@ a.sub_nav_active_item {
 
 #footer {
     background: transparent top right no-repeat;
-    background-image: url(images/static/footerbg.gif);
+    background-image: url(/images/dynamic/buttonset6/footerbg.gif);
     background-color: #AEB8B2;
 }
 
@@ -167,14 +167,8 @@ body#main_body {
 
 /*--------------------------------------------------------------------------*/
 
-#sub_nav_column {
-    background: transparent bottom right no-repeat;
-    background-image: url(http://kartika-mediani.com/colorschemes/colorscheme6/images/static/list.gif);
-}
-
 #weblog_calendar caption {
     color: #ffffff;
     background-color: #182F50;
     border-color: #182F50;
 }
-

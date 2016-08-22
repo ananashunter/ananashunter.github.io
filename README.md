@@ -1,2 +1,1 @@
-# ananashunter.github.io
-Portfolio website of Kartika Mediani
+## Portfolio Website of Kartika Mediani - Story & Animation Artist.

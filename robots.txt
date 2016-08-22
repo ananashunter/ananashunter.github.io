@@ -1,0 +1,4 @@
+# kartika-mediani.com
+
+User-agent: *
+Disallow:
