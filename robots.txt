@@ -1,4 +1,0 @@
-# ananashunter.github.io
-
-User-agent: *
-Disallow:
