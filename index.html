@@ -4,21 +4,24 @@
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <!-- <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"> -->
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="shortcut icon" type="image/png" sizes="16x16" href="images/icons/icon16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/icons/icon32.png">
-  <link rel="icon" type="image/png" sizes="72x72" href="images/icons/icon72.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="images/icons/icon96.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="images/icons/icon128.png">
-  <link rel="icon" type="image/png" sizes="144x144" href="images/icons/icon144.png">
-  <link rel="icon" type="image/png" sizes="152x152" href="images/icons/icon152.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon192.png">
-  <link rel="icon" type="image/png" sizes="384x384" href="images/icons/icon384.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="images/icons/icon512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icons/icon16.png">
+  <!--<link rel="icon" type="image/png" sizes="32x32" href="images/icons/icon32.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="64x64" href="images/icons/icon64.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="72x72" href="images/icons/icon72.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="96x96" href="images/icons/icon96.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="128x128" href="images/icons/icon128.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="144x144" href="images/icons/icon144.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="152x152" href="images/icons/icon152.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="192x192" href="images/icons/icon192.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="256x256" href="images/icons/icon256.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="384x384" href="images/icons/icon384.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="512x512" href="images/icons/icon512.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="1024x1024" href="images/icons/icon1024.png"> -->
 
-  <title>Home - Kartika-Mediani Art and Story Portfolio</title>
+  <title>Kartika-Mediani Art and Story Portfolio</title>
 
   <meta name="author" content="Kartika Mediani" href="http://kartika-mediani.com">
   <meta name="me" content="Kartika Mediani" href="http://kartika-mediani.com">
@@ -28,8 +31,8 @@
 
   <link rel="manifest" href="/manifest.json">
 
-  <meta name="theme-color" content="#7254a3">
-  <meta name="msapplication-TileColor" content="#7254a3">
+  <meta name="theme-color" content="#182F50">
+  <meta name="msapplication-TileColor" content="#182F50">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -37,9 +40,10 @@
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#7254a3">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#182F50">
   <meta name="apple-mobile-web-app-title" content="Kartika Mediani">
   <link rel="apple-touch-icon" href="images/icons/icon152.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="images/icons/icon152.png">
 
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="images/icons/icon144.png">
@@ -58,87 +62,34 @@
 
   <meta property="og:title" content="Kartika Mediani">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="images/icons/icon192.png"/>
+  <meta property="og:image" content="images/icons/icon512.png"/>
   <meta property="og:site_name" content="Kartika Mediani">
   <meta property="og:description" content="Portfolio Website of Kartika Mediani - Story &amp; Animation Artist.">
   <meta property="og:locale" content="en_US" />
 
-  <link rel="stylesheet" type="text/css" media="all" href="src/style/main.css">
-  <link rel="stylesheet" type="text/css" media="all" href="src/style/colorscheme.css">
-  <link rel="stylesheet" type="text/css" media="all" href="src/style/style.css">
-
-  <script type="text/javascript" src="live_tinc.js">
+  <script>
+    // setup Polymer options
+    window.Polymer = {lazyRegister: true, dom: 'shady'};
+    // load webcomponents polyfills
+    (function() {
+      if ('registerElement' in document &&
+          'import' in document.createElement('link') &&
+          'content' in document.createElement('template')) {
+        // browser has web components
+      } else {
+        // polyfill web components
+        var e = document.createElement('script');
+        e.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+        document.head.appendChild(e);
+      }
+    })();
   </script>
+
+  <link rel="import" href="/src/my-app.html">
+  <link rel="stylesheet" href="/src/style/main.css">
+
 </head>
-<body id="main_body">
-  <div id="container">
-    <div id="header">
-      <div id="slogan">
-      </div>
-      <div id="main_nav_container">
-        <ul id="main_nav_list">
-          <li>
-            <a class="main_nav_active_item" href="index.html" id="mnai1" shape="rect">Home</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="Animation-Reel.html" id="mni2" shape="rect">Films</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="story.html" id="mni2" shape="rect">Story</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="comic.html" id="mni2" shape="rect">Comic</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="Illustrations-Doodles.html" id="mni2" shape="rect">Illo &amp; Doodles</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="Sketches.html" id="mni2" shape="rect">Sketches</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="8.html" id="mni2" shape="rect">Studies</a>
-          </li>
-          <li>
-            <a class="main_nav_item" href="Info-resume-contact.html" id="mni2" shape="rect">About</a>
-          </li>
-        </ul>
-      </div>
-      <div id="key_visual">
-        <div id="logo">
-        </div>
-      </div>
-    </div>
-    <div id="main_container">
-      <table id="layout_table">
-        <tr>
-          <td colspan="1" id="content_column" rowspan="1">
-            <div id="sub_container2">
-              <div class="content" id="content_container">
-                <div align="center">
-                  <br>
-                  <img width="648" border="0" height="521" src="images/resources/12thMoleskine_Coversm.jpg">
-                </div>
-                <p style="text-align:center;">
-                  <br>
-                </p>
-                <p style="text-align:center;">
-                  <br>
-                </p>
-              </div>
-            </div>
-          </td>
-          <td colspan="1" id="sub_nav_column" rowspan="1">
-            <div id="left_column_container">
-              <div id="sub_container1">
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div id="footer">
-      <div id="footer_text">Copyright © 2010-2016 Kartika Mediani</div>
-    </div>
-  </div>
-</body>
+
+<body id="main_body"><my-app></my-app></body>
+
 </html>

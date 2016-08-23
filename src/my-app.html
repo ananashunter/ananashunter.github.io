@@ -1,0 +1,278 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="my-icons.html">
+<link rel="import" href="my-logos.html">
+
+<link rel="import" href="./style/page.html">
+
+<dom-module id="my-app">
+
+  <template>
+
+    <style include="iron-flex iron-flex-alignment">
+
+      :host {
+        display: block;
+        --app-primary-fill: #182F50;
+        --app-primary-color: #eeeeee;
+        --app-secondary-fill: #ffffff;
+        --app-secondary-color: #444444;
+        --app-tertiary-color: #B2C2D8;
+        --app-tertiary-fill: #AEB8B2;
+
+        --app-drawer-width: 160px;
+        --app-drawer-content-container: {
+          background-color: var(--app-secondary-fill);
+          border-right: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        --app-header-shadow: {
+          box-shadow: none;
+          background: linear-gradient(rgba(0,0,0,.3) 0, transparent 100%);
+        }
+      }
+
+      app-header-layout {
+        background-color: var(--app-secondary-fill);
+      }
+      app-header {
+        height: 55px;
+
+        color: var(--app-primary-color);
+        background-color: var(--app-secondary-fill);
+      }
+      app-toolbar {
+        padding: 0;
+      }
+      /*app-header::after {
+        position: absolute;
+        right: 0px;
+        bottom: -16px;
+        height: 16px;
+      }*/
+
+      .drawer-logo {
+        padding: 16px 16px 0 16px;
+      }
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 24px;
+        line-height: 30px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: var(--app-secondary-color);
+        background-color: var(--app-tertiary-fill);
+        font-weight: bold;
+      }
+      .drawer-list a.subroute {
+        padding-left: 32px;
+      }
+
+      .header-list {
+        width: 900px;
+        height: 24px;
+        margin: 0 auto;
+        border-bottom: 4px solid var(--app-primary-fill);
+        white-space: nowrap;
+        font-size: 0;
+      }
+      .header-list a {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 0 4px 0 22px;
+        line-height: 24px;
+        margin: 0;
+        text-decoration: none;
+        vertical-align: text-top;
+        color: var(--app-primary-color);
+        background-color: var(--app-primary-fill);
+      }
+      .header-list a:last-of-type {
+        padding: 0 310px 0 22px;
+        border-radius: 0 22px 0 0;
+      }
+      .header-list a.iron-selected {
+        color: var(--app-tertiary-color);
+        font-weight: bold;
+      }
+      .header-menu-btn {
+        display: none;
+      }
+
+      #footer {
+        width: 900px;
+        height: 16px;
+        margin: 48px auto 0 auto;
+        padding: 8px;
+        background-color: var(--app-tertiary-fill);
+        border-radius: 0 28px 0 0;
+        font-family: Arial,sans-serif;
+        font-style: normal;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+
+      @media (max-width: 570px) {
+        .header-list {
+          display: none;
+        }
+        .header-menu-btn {
+          display: inline-block;
+        }
+      }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/:page" data="{{pageData}}"></app-route>
+    <app-route route="{{route}}" pattern="/project" tail="{{projectTail}}"></app-route>
+
+    <app-drawer-layout id="drawerlayout" fullbleed force-narrow>
+
+      <!-- Drawer content -->
+      <app-drawer id="drawer" swipe-open>
+        <img src="/images/icons/icon128.png" class="drawer-logo"></img>
+        <iron-selector selected="[[path]]" attr-for-selected="name" class="drawer-list" role="navigation" on-tap="closeDrawer">
+          <a name="home" href="/home">Home</a>
+          <a name="films" href="/films">Films</a>
+          <a name="story" href="/story">Story</a>
+          <a name="comic" href="/comic">comic</a>
+          <a name="illustrations" href="/illustrations">Illo &amp; Doodles</a>
+          <a name="sketches" href="/sketches">Sketches</a>
+          <a name="studies" href="/studies">Studies</a>
+          <a name="about" href="/about">About</a>
+        </iron-selector>
+      </app-drawer>
+
+      <!-- Main content -->
+      <app-header-layout id="headerlayout" has-scrolling-region>
+
+        <app-header condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button class="header-menu-btn" icon="menu" drawer-toggle></paper-icon-button>
+            <iron-selector selected="[[path]]" attr-for-selected="name" class="header-list" role="navigation">
+              <a name="home" href="/home">Home</a>
+              <a name="films" href="/films">Films</a>
+              <a name="story" href="/story">Story</a>
+              <a name="comic" href="/comic">comic</a>
+              <a name="illustrations" href="/illustrations">Illo &amp; Doodles</a>
+              <a name="sketches" href="/sketches">Sketches</a>
+              <a name="studies" href="/studies">Studies</a>
+              <a name="about" href="/about">About</a>
+            </iron-selector>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages role="main" selected="[[path]]" attr-for-selected="id">
+          <page-home id="home"></page-home>
+          <page-films id="films"></page-films>
+          <page-story id="story"></page-story>
+          <page-comic id="comic"></page-comic>
+          <page-illustrations id="illustrations"></page-illustrations>
+          <page-sketches id="sketches"></page-sketches>
+          <page-studies id="studies"></page-studies>
+          <page-about id="about"></page-about>
+        </iron-pages>
+
+        <div id="footer">
+          <span>Copyright © 2010-2016 Kartika Mediani</span>
+        </div>
+
+      </app-header-layout>
+
+    </app-drawer-layout>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'my-app',
+
+      properties: {
+
+        path: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pathChanged'
+        },
+
+        projects: {
+          type: Array
+        }
+
+      },
+
+      observers: [
+        '_pageChanged(pageData.page)',
+        '_projectChanged(projectTail.path)',
+      ],
+
+      ready: function() {
+        var projects = [];
+        Array.prototype.slice.call(this.querySelectorAll('.project')).forEach(function(node) {
+          projects.push({
+            id: node.getAttribute('id'),
+            title: node.getAttribute('title')
+          });
+        });
+        this.projects = projects;
+        //TODO: app-layout bug work-around
+        setTimeout(function () {
+          this.$.drawerlayout.resetLayout()
+          this.$.headerlayout.resetLayout()
+        }.bind(this), 1)
+      },
+
+      closeDrawer: function () {
+        this.$.drawer.close();
+      },
+
+      _pageChanged: function(page) {
+        if (page != 'project') {
+          this.path = page || 'home';
+        } else if (this.projectTail) {
+          this._projectChanged(this.projectTail.path)
+        }
+      },
+
+      _projectChanged: function (project) {
+        if (project) {
+          this.path = 'project' + project;
+        }
+      },
+
+      _pathChanged: function(path) {
+        this.importHref(this.resolveUrl('page/' + this.path + '.html'), null, null, true);
+      }
+
+    });
+
+  </script>
+
+</dom-module>
