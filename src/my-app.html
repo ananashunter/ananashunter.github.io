@@ -14,10 +14,10 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
-<link rel="import" href="my-icons.html">
-<link rel="import" href="my-logos.html">
+<!-- <link rel="import" href="res-img.html"> -->
 
 <link rel="import" href="./style/page.html">
 
@@ -25,17 +25,17 @@
 
   <template>
 
-    <style include="iron-flex iron-flex-alignment">
+    <style include="iron-flex iron-flex-alignment page-styles">
 
       :host {
         display: block;
         --app-primary-fill: #182F50;
+        --app-primary-fill-dark: #091525;
         --app-primary-color: #eeeeee;
         --app-secondary-fill: #ffffff;
         --app-secondary-color: #444444;
         --app-tertiary-color: #B2C2D8;
         --app-tertiary-fill: #AEB8B2;
-
         --app-drawer-width: 160px;
         --app-drawer-content-container: {
           background-color: var(--app-secondary-fill);
@@ -44,7 +44,7 @@
 
         --app-header-shadow: {
           box-shadow: none;
-          background: linear-gradient(rgba(0,0,0,.3) 0, transparent 100%);
+          background: linear-gradient(rgba(0,0,0,.5) 0, transparent 100%);
         }
       }
 
@@ -52,23 +52,51 @@
         background-color: var(--app-secondary-fill);
       }
       app-header {
-        height: 55px;
-
+        height: 42px;
         color: var(--app-primary-color);
         background-color: var(--app-secondary-fill);
       }
       app-toolbar {
+        height: 42px;
         padding: 0;
+        background: linear-gradient(transparent 38.9px, var(--app-primary-fill-dark) 39px);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
       }
-      /*app-header::after {
-        position: absolute;
-        right: 0px;
-        bottom: -16px;
-        height: 16px;
-      }*/
+
+      .header-list {
+        max-width: 900px;
+        margin-bottom: -12px;
+        background-color: var(--app-primary-fill);
+        border-radius: 0 22px 0 0;
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+      }
+      .header-list a {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 3px 11px 0px 11px;
+        margin: 0;
+        text-decoration: none;
+        vertical-align: text-top;
+        color: var(--app-primary-color);
+
+      }
+      .header-list a.iron-selected,
+      .header-list a:hover {
+        color: var(--app-tertiary-color);
+        background: var(--app-primary-fill-dark);
+        font-weight: bold;
+      }
+      .header-menu-btn,
+      .header-menu-label {
+        display: none;
+      }
 
       .drawer-logo {
-        padding: 16px 16px 0 16px;
+        padding: 8px 8px 0 8px;
+        width: calc(100% - 16px);
       }
       .drawer-list {
         margin: 0 20px;
@@ -89,59 +117,51 @@
         padding-left: 32px;
       }
 
-      .header-list {
+      .contentwrapper {
+        @apply(--layout-flex);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+      .content {
         width: 900px;
-        height: 24px;
-        margin: 0 auto;
-        border-bottom: 4px solid var(--app-primary-fill);
-        white-space: nowrap;
-        font-size: 0;
-      }
-      .header-list a {
-        display: inline-block;
-        font-size: 13px;
-        font-weight: bold;
-        padding: 0 4px 0 22px;
-        line-height: 24px;
-        margin: 0;
-        text-decoration: none;
-        vertical-align: text-top;
-        color: var(--app-primary-color);
-        background-color: var(--app-primary-fill);
-      }
-      .header-list a:last-of-type {
-        padding: 0 310px 0 22px;
-        border-radius: 0 22px 0 0;
-      }
-      .header-list a.iron-selected {
-        color: var(--app-tertiary-color);
-        font-weight: bold;
-      }
-      .header-menu-btn {
-        display: none;
+        box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.2);
       }
 
-      #footer {
-        width: 900px;
-        height: 16px;
-        margin: 48px auto 0 auto;
+      footer {
+        width: calc(100% - 16px);
         padding: 8px;
         background-color: var(--app-tertiary-fill);
-        border-radius: 0 28px 0 0;
-        font-family: Arial,sans-serif;
         font-style: normal;
-        font-size: 11px;
-        font-weight: bold;
+        font-size: 12px;
+        line-height: 8px;
         text-decoration: none;
         color: var(--app-secondary-color);
       }
 
-      @media (max-width: 570px) {
+      /* Mobile screen size */
+
+      @media (max-width: 610px) {
+        app-header {
+          height: 42px;
+          background:  var(--app-secondary-fill);
+        }
+        app-toolbar {
+          height: 42px;
+          background: linear-gradient(transparent 40.9px, var(--app-primary-fill-dark) 41px);
+          @apply(--layout-horizontal);
+          @apply(--layout-start-justified);
+        }
         .header-list {
           display: none;
         }
         .header-menu-btn {
           display: inline-block;
+          color: var(--app-primary-fill-dark);
+        }
+        .header-menu-label {
+          display: inline-block;
+          color: var(--app-primary-fill);
+          cursor: pointer;
         }
       }
 
@@ -155,7 +175,7 @@
 
       <!-- Drawer content -->
       <app-drawer id="drawer" swipe-open>
-        <img src="/images/icons/icon128.png" class="drawer-logo"></img>
+        <img src="/images/icons/icon192.png" class="drawer-logo"></img>
         <iron-selector selected="[[path]]" attr-for-selected="name" class="drawer-list" role="navigation" on-tap="closeDrawer">
           <a name="home" href="/home">Home</a>
           <a name="films" href="/films">Films</a>
@@ -169,11 +189,12 @@
       </app-drawer>
 
       <!-- Main content -->
-      <app-header-layout id="headerlayout" has-scrolling-region>
+      <app-header-layout id="headerlayout" fullbleed has-scrolling-region>
 
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button class="header-menu-btn" icon="menu" drawer-toggle></paper-icon-button>
+            <span class="header-menu-label" drawer-toggle>Menu</span>
             <iron-selector selected="[[path]]" attr-for-selected="name" class="header-list" role="navigation">
               <a name="home" href="/home">Home</a>
               <a name="films" href="/films">Films</a>
@@ -187,20 +208,35 @@
           </app-toolbar>
         </app-header>
 
-        <iron-pages role="main" selected="[[path]]" attr-for-selected="id">
-          <page-home id="home"></page-home>
-          <page-films id="films"></page-films>
-          <page-story id="story"></page-story>
-          <page-comic id="comic"></page-comic>
-          <page-illustrations id="illustrations"></page-illustrations>
-          <page-sketches id="sketches"></page-sketches>
-          <page-studies id="studies"></page-studies>
-          <page-about id="about"></page-about>
-        </iron-pages>
+        <div class="contentwrapper">
+          <div class="content">
 
-        <div id="footer">
-          <span>Copyright © 2010-2016 Kartika Mediani</span>
+            <!-- <res-img src="../../images/pages/banner1024.jpg" class="page-header-img"></res-img> -->
+            <img src="../../images/pages/banner128.jpg" xsrc="../../images/pages/banner$.jpg" sizes="1024 2048" class="page-header-img"/>
+            <!-- <template is="dom-if" if="{{highdpi}}">
+              <img src="../../images/pages/banner2048.jpg" class="page-header-img"/>
+            </template>
+            <template is="dom-if" if="{{!highdpi}}">
+              <img src="../../images/pages/banner1024.jpg" class="page-header-img"/>
+            </template> -->
+
+            <iron-pages role="main" selected="[[path]]" attr-for-selected="id">
+              <page-home id="home"></page-home>
+              <page-films id="films"></page-films>
+              <page-story id="story"></page-story>
+              <page-comic id="comic"></page-comic>
+              <page-illustrations id="illustrations"></page-illustrations>
+              <page-sketches id="sketches"></page-sketches>
+              <page-studies id="studies"></page-studies>
+              <page-about id="about"></page-about>
+            </iron-pages>
+
+          </div>
         </div>
+
+        <footer>
+          Copyright &copy; 2010-2016 Kartika Mediani
+        </footer>
 
       </app-header-layout>
 
@@ -220,6 +256,11 @@
           type: String,
           reflectToAttribute: true,
           observer: '_pathChanged'
+        },
+
+        highdpi: {
+          type: Boolean,
+          value: false
         },
 
         projects: {
@@ -246,7 +287,22 @@
         setTimeout(function () {
           this.$.drawerlayout.resetLayout()
           this.$.headerlayout.resetLayout()
+          this.initImages()
         }.bind(this), 1)
+      },
+
+      initImages: function () {
+        Array.prototype.slice.call(this.querySelectorAll('img[xsrc]')).forEach(function(img) {
+          var sizes = img.getAttribute('sizes').split(' ')
+          var xsrc = img.getAttribute('xsrc')
+          var minwidth = img.clientWidth * window.devicePixelRatio
+          for (var i in sizes) {
+            if (sizes[i] > minwidth) {
+              img.setAttribute('src', xsrc.replace('$', sizes[i]))
+              return;
+            }
+          }
+        })
       },
 
       closeDrawer: function () {
