@@ -1,204 +1,73 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <dom-module id="res-img">
-  <template>
-    <style>
-      :host {
-        display: inline-block;
-        /*overflow: hidden;*/
-        /*position: relative;*/
-      }
-      #img {
-        @apply(--layout-fit);
-      }
-    </style>
-
-    <img id="img" src="{{src}}" alt="{{alt}}" on-load="_loaded"/>
-
-  </template>
-
-  <script>
+<script>
+  (function () {
     Polymer({
       is: 'res-img',
-
+      extends: 'img',
       properties: {
         /**
-         * The URL of an image.
+         * RegEx that matches the numerical width value in src attribute.
          */
-        src: {
-          // observer: '_srcChanged',
+         match: {
+          type: String,
+          value: /\d+(?=\.\w+$)/g
+        },
+        /**
+         * Space-separated list of available image widths.
+         */
+        sizes: {
           type: String,
           value: ''
         },
-
-        /**
-         * A short text alternative for the image.
-         */
-        alt: {
-          type: String,
-          value: null
-        },
-
-        width: {
-          // observer: '_widthChanged',
-          type: Number,
-          value: null
-        },
-
-        height: {
-          // observer: '_heightChanged',
-          type: Number,
-          value: null
-        },
       },
-
-      // observers: [
-      //   '_transformChanged(sizing, position)'
-      // ],
-
-      ready: function() {
-        // var img = this.$.img;
-        //
-        // img.onload = function() {
-        //   if (this.$.img.src !== this._resolveSrc(this.src)) return;
-        //
-        //   this._setLoading(false);
-        //   this._setLoaded(true);
-        //   this._setError(false);
-        // }.bind(this);
-        //
-        // img.onerror = function() {
-        //   if (this.$.img.src !== this._resolveSrc(this.src)) return;
-        //
-        //   this._reset();
-        //
-        //   this._setLoading(false);
-        //   this._setLoaded(false);
-        //   this._setError(true);
-        // }.bind(this);
-        //
-        // this._resolvedSrc = '';
+      created: function () {
+        this._updateSize = this.updateSize.bind(this);
       },
-
-      _loaded: function (event) {
-        var width = this.$.img.clientWidth;
-        var height = this.$.img.clientHeight;
-        var aspect = width / height;
-        console.dir(aspect)
-        console.dir(this.clientWidth)
-        this.width = this.clientWidth + 'px'
-        this.height = this.clientWidth / aspect + 'px'
+      attached: function() {
+        this.addEventListener('load', function (img) {
+          this._updateSize();
+          this.setBlur();
+        });
+      },
+      updateSize: function () {
+        var sizes = this.sizes.split(' ');
+        var minwidth = this.clientWidth * window.devicePixelRatio;
+        for (var i in sizes) {
+          if (sizes[i] > minwidth || i == sizes.length - 1) {
+            var newsrc = this.src.replace(this.match, sizes[i]);
+            if (newsrc != this.src) {
+              this.setAttribute('src', newsrc);
+            }
+            return;
+          }
+        }
+      },
+      setBlur: function () {
+        var blur = Math.max(Math.floor(this.clientWidth / this.naturalWidth - 2), 0);
+        if (blur > 0) {
+          this.style['-webkit-filter'] = 'blur(' + blur + 'px)';
+          this.style['-moz-filter'] = 'blur(' + blur + 'px)';
+          this.style['-ms-filter'] = 'blur(' + blur + 'px)';
+          this.style['-o-filter'] = 'blur(' + blur + 'px)';
+          this.style['filter'] = 'blur(' + blur + 'px)';
+        } else {
+          setTimeout(function () {
+            this.style['-webkit-transition'] = 'all 0.5s ease-out';
+            this.style['-moz-transition'] = 'all 0.5s ease-out';
+            this.style['-ms-transition'] = 'all 0.5s ease-out';
+            this.style['-o-transition'] = 'all 0.5s ease-out';
+            this.style['transition'] = 'all 0.5s ease-out';
+            this.style['-webkit-filter'] = 'blur(0px)';
+            this.style['-moz-filter'] = 'blur(0px)';
+            this.style['-ms-filter'] = 'blur(0px)';
+            this.style['-o-filter'] = 'blur(0px)';
+            this.style['filter'] = 'blur(0px)';
+          }.bind(this), 1)
+        }
       }
-
-      // _load: function(src) {
-      //   if (src) {
-      //     this.$.img.src = src;
-      //   } else {
-      //     this.$.img.removeAttribute('src');
-      //   }
-      //   this.$.sizedImgDiv.style.backgroundImage = src ? 'url("' + src + '")' : '';
-      //
-      //   this._setLoading(!!src);
-      //   this._setLoaded(false);
-      //   this._setError(false);
-      // },
-      //
-      // _reset: function() {
-      //   this.$.img.removeAttribute('src');
-      //   this.$.sizedImgDiv.style.backgroundImage = '';
-      //
-      //   this._setLoading(false);
-      //   this._setLoaded(false);
-      //   this._setError(false);
-      // },
-      //
-      // _computePlaceholderHidden: function() {
-      //   return !this.preload || (!this.fade && !this.loading && this.loaded);
-      // },
-      //
-      // _computePlaceholderClassName: function() {
-      //   return (this.preload && this.fade && !this.loading && this.loaded) ? 'faded-out' : '';
-      // },
-      //
-      // _computeImgDivHidden: function() {
-      //   return !this.sizing;
-      // },
-      //
-      // _computeImgDivARIAHidden: function() {
-      //   return this.alt === '' ? 'true' : undefined;
-      // },
-      //
-      // _computeImgDivARIALabel: function() {
-      //   if (this.alt !== null) {
-      //     return this.alt;
-      //   }
-      //
-      //   // Polymer.ResolveUrl.resolveUrl will resolve '' relative to a URL x to
-      //   // that URL x, but '' is the default for src.
-      //   if (this.src === '') {
-      //     return '';
-      //   }
-      //
-      //   var pathComponents = (new URL(this._resolveSrc(this.src))).pathname.split("/");
-      //   return pathComponents[pathComponents.length - 1];
-      // },
-      //
-      // _computeImgHidden: function() {
-      //   return !!this.sizing;
-      // },
-      //
-      // _widthChanged: function() {
-      //   this.style.width = isNaN(this.width) ? this.width : this.width + 'px';
-      // },
-      //
-      // _heightChanged: function() {
-      //   this.style.height = isNaN(this.height) ? this.height : this.height + 'px';
-      // },
-      //
-      // _preventLoadChanged: function() {
-      //   if (this.preventLoad || this.loaded) return;
-      //
-      //   this._reset();
-      //   this._load(this.src);
-      // },
-      //
-      // _srcChanged: function(newSrc, oldSrc) {
-      //   var newResolvedSrc = this._resolveSrc(newSrc);
-      //   if (newResolvedSrc === this._resolvedSrc) return;
-      //   this._resolvedSrc = newResolvedSrc;
-      //
-      //   this._reset();
-      //   if (!this.preventLoad) {
-      //     this._load(newSrc);
-      //   }
-      // },
-      //
-      // _placeholderChanged: function() {
-      //   this.$.placeholder.style.backgroundImage =
-      //     this.placeholder ? 'url("' + this.placeholder + '")' : '';
-      // },
-      //
-      // _transformChanged: function() {
-      //   var sizedImgDivStyle = this.$.sizedImgDiv.style;
-      //   var placeholderStyle = this.$.placeholder.style;
-      //
-      //   sizedImgDivStyle.backgroundSize =
-      //   placeholderStyle.backgroundSize =
-      //     this.sizing;
-      //
-      //   sizedImgDivStyle.backgroundPosition =
-      //   placeholderStyle.backgroundPosition =
-      //     this.sizing ? this.position : '';
-      //
-      //   sizedImgDivStyle.backgroundRepeat =
-      //   placeholderStyle.backgroundRepeat =
-      //     this.sizing ? 'no-repeat' : '';
-      // },
-      //
-      // _resolveSrc: function(testSrc) {
-      //   var baseURI = /** @type {string} */(this.ownerDocument.baseURI);
-      //   return (new URL(Polymer.ResolveUrl.resolveUrl(testSrc, baseURI), baseURI)).href;
-      // }
     });
-  </script>
+  })();
+</script>
 </dom-module>

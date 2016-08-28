@@ -7,7 +7,8 @@
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<!-- <link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html"> -->
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
@@ -17,7 +18,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
-<!-- <link rel="import" href="res-img.html"> -->
+<link rel="import" href="res-img.html">
 
 <link rel="import" href="./style/page.html">
 
@@ -25,7 +26,7 @@
 
   <template>
 
-    <style include="iron-flex iron-flex-alignment page-styles">
+    <style is="custom-style" include="iron-flex iron-flex-alignment page-styles">
 
       :host {
         display: block;
@@ -123,11 +124,15 @@
         @apply(--layout-center-justified);
       }
       .content {
-        width: 900px;
-        box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.2);
+        max-width: 900px;
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.02);
       }
 
       footer {
+        /*position: absolute;*/
+        /*bottom: 0;*/
         width: calc(100% - 16px);
         padding: 8px;
         background-color: var(--app-tertiary-fill);
@@ -191,7 +196,7 @@
       <!-- Main content -->
       <app-header-layout id="headerlayout" fullbleed has-scrolling-region>
 
-        <app-header condenses reveals effects="waterfall">
+        <app-header effects="waterfall" condenses reveals>
           <app-toolbar>
             <paper-icon-button class="header-menu-btn" icon="menu" drawer-toggle></paper-icon-button>
             <span class="header-menu-label" drawer-toggle>Menu</span>
@@ -210,15 +215,7 @@
 
         <div class="contentwrapper">
           <div class="content">
-
-            <!-- <res-img src="../../images/pages/banner1024.jpg" class="page-header-img"></res-img> -->
-            <img src="../../images/pages/banner128.jpg" xsrc="../../images/pages/banner$.jpg" sizes="1024 2048" class="page-header-img"/>
-            <!-- <template is="dom-if" if="{{highdpi}}">
-              <img src="../../images/pages/banner2048.jpg" class="page-header-img"/>
-            </template>
-            <template is="dom-if" if="{{!highdpi}}">
-              <img src="../../images/pages/banner1024.jpg" class="page-header-img"/>
-            </template> -->
+            <img is="res-img" src="../../images/pages/banner128.png" sizes="512 1024 2048" class="page-header-img" />
 
             <iron-pages role="main" selected="[[path]]" attr-for-selected="id">
               <page-home id="home"></page-home>
@@ -230,7 +227,6 @@
               <page-studies id="studies"></page-studies>
               <page-about id="about"></page-about>
             </iron-pages>
-
           </div>
         </div>
 
@@ -258,11 +254,6 @@
           observer: '_pathChanged'
         },
 
-        highdpi: {
-          type: Boolean,
-          value: false
-        },
-
         projects: {
           type: Array
         }
@@ -287,22 +278,7 @@
         setTimeout(function () {
           this.$.drawerlayout.resetLayout()
           this.$.headerlayout.resetLayout()
-          this.initImages()
         }.bind(this), 1)
-      },
-
-      initImages: function () {
-        Array.prototype.slice.call(this.querySelectorAll('img[xsrc]')).forEach(function(img) {
-          var sizes = img.getAttribute('sizes').split(' ')
-          var xsrc = img.getAttribute('xsrc')
-          var minwidth = img.clientWidth * window.devicePixelRatio
-          for (var i in sizes) {
-            if (sizes[i] > minwidth) {
-              img.setAttribute('src', xsrc.replace('$', sizes[i]))
-              return;
-            }
-          }
-        })
       },
 
       closeDrawer: function () {
