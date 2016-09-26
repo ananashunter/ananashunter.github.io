@@ -12,8 +12,8 @@
     ],
     "rewrites": [
       {
-        "source": "/doc/*",
-        "destination": "/src/doc/*"
+        "source": "/doc/**",
+        "destination": "/src/doc/**"
       }, {
         "source": "**",
         "destination": "/index.html"
