@@ -12,6 +12,9 @@
     ],
     "rewrites": [
       {
+        "source": "/doc/*",
+        "destination": "/src/doc/*"
+      }, {
         "source": "**",
         "destination": "/index.html"
       }
